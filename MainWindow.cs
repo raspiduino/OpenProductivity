@@ -27,7 +27,8 @@ namespace OpenProductivity
 
             // Setting file layout
             // Line 1: session time in sec
-            // Line 2: break time in sec
+            // Line 2: break time?
+            // Line 3: break time in sec
 
             string[] setting = System.IO.File.ReadAllLines(@"setting.txt");
 
@@ -58,6 +59,21 @@ namespace OpenProductivity
         //public async void delay_mlsec(int time_to_wait) { 
         //    await Task.Delay(time_to_wait);
         //}
+
+        private void ButtonRestart_Click(object sender, System.EventArgs e)
+        {
+            this.session_state = false; // Stop session
+
+            // Reset the clock
+            this.session_hour = this.hour;
+            this.session_min = this.min;
+            this.session_sec = this.sec;
+            this.clock_degree_now = 360;
+
+            // Update the clock
+            this.clock.Invalidate(new System.Drawing.Rectangle(0, 0, 326, 284));
+            this.clock.Update();
+        }
 
         private async void ButtonClockStartStop_Click(object sender, System.EventArgs e)
         {

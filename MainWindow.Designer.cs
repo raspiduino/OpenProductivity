@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageSession = new System.Windows.Forms.TabPage();
+            this.buttonRestart = new System.Windows.Forms.Button();
             this.buttonClockStartStop = new System.Windows.Forms.Button();
             this.clock = new System.Windows.Forms.PictureBox();
             this.tabPageSetting = new System.Windows.Forms.TabPage();
@@ -56,6 +57,31 @@
             this.tabPageSettingAdvanced = new System.Windows.Forms.TabPage();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.aboutTextBox = new System.Windows.Forms.RichTextBox();
+            this.addAppInput = new System.Windows.Forms.TextBox();
+            this.buttonAddApp = new System.Windows.Forms.Button();
+            this.buttonRemoveApp = new System.Windows.Forms.Button();
+            this.appListBox = new System.Windows.Forms.CheckedListBox();
+            this.webListBox = new System.Windows.Forms.CheckedListBox();
+            this.checkBoxBlockInternet = new System.Windows.Forms.CheckBox();
+            this.textBoxAddWeb = new System.Windows.Forms.TextBox();
+            this.buttonAddWeb = new System.Windows.Forms.Button();
+            this.buttonRemoveWeb = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.buttonOKAdv = new System.Windows.Forms.Button();
+            this.buttonApplyAdv = new System.Windows.Forms.Button();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
+            this.checkBox13 = new System.Windows.Forms.CheckBox();
+            this.buttonApplySetting = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageSession.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clock)).BeginInit();
@@ -67,6 +93,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.sessionTimeSec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sessionTimeMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sessionTimeHR)).BeginInit();
+            this.tabPageSettingAppBlocking.SuspendLayout();
+            this.tabPageSettingWebBlocking.SuspendLayout();
+            this.tabPageSettingAdvanced.SuspendLayout();
             this.tabPageAbout.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,6 +112,7 @@
             // 
             // tabPageSession
             // 
+            this.tabPageSession.Controls.Add(this.buttonRestart);
             this.tabPageSession.Controls.Add(this.buttonClockStartStop);
             this.tabPageSession.Controls.Add(this.clock);
             this.tabPageSession.Location = new System.Drawing.Point(4, 24);
@@ -92,6 +122,20 @@
             this.tabPageSession.TabIndex = 1;
             this.tabPageSession.Text = "Session";
             this.tabPageSession.UseVisualStyleBackColor = true;
+            // 
+            // buttonRestart
+            // 
+            this.buttonRestart.BackColor = System.Drawing.Color.White;
+            this.buttonRestart.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.buttonRestart.FlatAppearance.BorderSize = 0;
+            this.buttonRestart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRestart.Image = global::OpenProductivity.Properties.Resources.restart_button;
+            this.buttonRestart.Location = new System.Drawing.Point(90, 333);
+            this.buttonRestart.Name = "buttonRestart";
+            this.buttonRestart.Size = new System.Drawing.Size(41, 37);
+            this.buttonRestart.TabIndex = 2;
+            this.buttonRestart.UseVisualStyleBackColor = true;
+            this.buttonRestart.Click += ButtonRestart_Click;
             // 
             // buttonClockStartStop
             // 
@@ -142,6 +186,7 @@
             // 
             // tabPageSettingGeneral
             // 
+            this.tabPageSettingGeneral.Controls.Add(this.buttonApplySetting);
             this.tabPageSettingGeneral.Controls.Add(this.buttonSettingOk1);
             this.tabPageSettingGeneral.Controls.Add(this.enableBreakTime);
             this.tabPageSettingGeneral.Controls.Add(this.label6);
@@ -318,6 +363,10 @@
             // 
             // tabPageSettingAppBlocking
             // 
+            this.tabPageSettingAppBlocking.Controls.Add(this.appListBox);
+            this.tabPageSettingAppBlocking.Controls.Add(this.buttonRemoveApp);
+            this.tabPageSettingAppBlocking.Controls.Add(this.buttonAddApp);
+            this.tabPageSettingAppBlocking.Controls.Add(this.addAppInput);
             this.tabPageSettingAppBlocking.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettingAppBlocking.Name = "tabPageSettingAppBlocking";
             this.tabPageSettingAppBlocking.Padding = new System.Windows.Forms.Padding(3);
@@ -328,6 +377,11 @@
             // 
             // tabPageSettingWebBlocking
             // 
+            this.tabPageSettingWebBlocking.Controls.Add(this.buttonRemoveWeb);
+            this.tabPageSettingWebBlocking.Controls.Add(this.buttonAddWeb);
+            this.tabPageSettingWebBlocking.Controls.Add(this.textBoxAddWeb);
+            this.tabPageSettingWebBlocking.Controls.Add(this.checkBoxBlockInternet);
+            this.tabPageSettingWebBlocking.Controls.Add(this.webListBox);
             this.tabPageSettingWebBlocking.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettingWebBlocking.Name = "tabPageSettingWebBlocking";
             this.tabPageSettingWebBlocking.Padding = new System.Windows.Forms.Padding(3);
@@ -338,6 +392,21 @@
             // 
             // tabPageSettingAdvanced
             // 
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox13);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox12);
+            this.tabPageSettingAdvanced.Controls.Add(this.buttonApplyAdv);
+            this.tabPageSettingAdvanced.Controls.Add(this.buttonOKAdv);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox11);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox10);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox9);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox8);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox7);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox6);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox5);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox4);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox3);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox2);
+            this.tabPageSettingAdvanced.Controls.Add(this.checkBox1);
             this.tabPageSettingAdvanced.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettingAdvanced.Name = "tabPageSettingAdvanced";
             this.tabPageSettingAdvanced.Padding = new System.Windows.Forms.Padding(3);
@@ -366,6 +435,239 @@
             this.aboutTextBox.TabIndex = 0;
             this.aboutTextBox.Text = resources.GetString("aboutTextBox.Text");
             // 
+            // addAppInput
+            // 
+            this.addAppInput.Location = new System.Drawing.Point(13, 337);
+            this.addAppInput.Name = "addAppInput";
+            this.addAppInput.Size = new System.Drawing.Size(141, 23);
+            this.addAppInput.TabIndex = 2;
+            // 
+            // buttonAddApp
+            // 
+            this.buttonAddApp.Location = new System.Drawing.Point(160, 336);
+            this.buttonAddApp.Name = "buttonAddApp";
+            this.buttonAddApp.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddApp.TabIndex = 3;
+            this.buttonAddApp.Text = "Add";
+            this.buttonAddApp.UseVisualStyleBackColor = true;
+            // 
+            // buttonRemoveApp
+            // 
+            this.buttonRemoveApp.Location = new System.Drawing.Point(263, 336);
+            this.buttonRemoveApp.Name = "buttonRemoveApp";
+            this.buttonRemoveApp.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemoveApp.TabIndex = 4;
+            this.buttonRemoveApp.Text = "Remove";
+            this.buttonRemoveApp.UseVisualStyleBackColor = true;
+            // 
+            // appListBox
+            // 
+            this.appListBox.FormattingEnabled = true;
+            this.appListBox.Location = new System.Drawing.Point(3, 2);
+            this.appListBox.Name = "appListBox";
+            this.appListBox.Size = new System.Drawing.Size(348, 328);
+            this.appListBox.TabIndex = 5;
+            // 
+            // webListBox
+            // 
+            this.webListBox.FormattingEnabled = true;
+            this.webListBox.Location = new System.Drawing.Point(0, 22);
+            this.webListBox.Name = "webListBox";
+            this.webListBox.Size = new System.Drawing.Size(354, 310);
+            this.webListBox.TabIndex = 0;
+            // 
+            // checkBoxBlockInternet
+            // 
+            this.checkBoxBlockInternet.AutoSize = true;
+            this.checkBoxBlockInternet.Location = new System.Drawing.Point(14, 3);
+            this.checkBoxBlockInternet.Name = "checkBoxBlockInternet";
+            this.checkBoxBlockInternet.Size = new System.Drawing.Size(220, 19);
+            this.checkBoxBlockInternet.TabIndex = 1;
+            this.checkBoxBlockInternet.Text = "Block the entire Internet connection?";
+            this.checkBoxBlockInternet.UseVisualStyleBackColor = true;
+            // 
+            // textBoxAddWeb
+            // 
+            this.textBoxAddWeb.Location = new System.Drawing.Point(14, 339);
+            this.textBoxAddWeb.Name = "textBoxAddWeb";
+            this.textBoxAddWeb.Size = new System.Drawing.Size(139, 23);
+            this.textBoxAddWeb.TabIndex = 2;
+            // 
+            // buttonAddWeb
+            // 
+            this.buttonAddWeb.Location = new System.Drawing.Point(159, 339);
+            this.buttonAddWeb.Name = "buttonAddWeb";
+            this.buttonAddWeb.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddWeb.TabIndex = 3;
+            this.buttonAddWeb.Text = "Add";
+            this.buttonAddWeb.UseVisualStyleBackColor = true;
+            // 
+            // buttonRemoveWeb
+            // 
+            this.buttonRemoveWeb.Location = new System.Drawing.Point(264, 339);
+            this.buttonRemoveWeb.Name = "buttonRemoveWeb";
+            this.buttonRemoveWeb.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemoveWeb.TabIndex = 4;
+            this.buttonRemoveWeb.Text = "Remove";
+            this.buttonRemoveWeb.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(13, 4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(203, 19);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Block app setting in session time?";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(13, 30);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(220, 19);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Block system setting in session time?";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(13, 56);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(216, 19);
+            this.checkBox3.TabIndex = 2;
+            this.checkBox3.Text = "Block Task Manager in session time?";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(13, 82);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(244, 19);
+            this.checkBox4.TabIndex = 3;
+            this.checkBox4.Text = "Block Command Prompt in session time?";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(13, 108);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(202, 19);
+            this.checkBox5.TabIndex = 4;
+            this.checkBox5.Text = "Block PowerShell in session time?";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(13, 134);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(264, 19);
+            this.checkBox6.TabIndex = 5;
+            this.checkBox6.Text = "Block start/stop/reset button in session time?";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Location = new System.Drawing.Point(13, 160);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(328, 19);
+            this.checkBox7.TabIndex = 6;
+            this.checkBox7.Text = "Block anything trying to stop the process in session time?";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(13, 186);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(236, 19);
+            this.checkBox8.TabIndex = 7;
+            this.checkBox8.Text = "Block the Control Panel in session time?";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(13, 212);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(316, 19);
+            this.checkBox9.TabIndex = 8;
+            this.checkBox9.Text = "Block shutting down/restarting system in session time?";
+            this.checkBox9.UseVisualStyleBackColor = true;
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(13, 238);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(314, 19);
+            this.checkBox10.TabIndex = 9;
+            this.checkBox10.Text = "Block sleeping/hibernating the system in session time?";
+            this.checkBox10.UseVisualStyleBackColor = true;
+            // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Location = new System.Drawing.Point(13, 264);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(331, 19);
+            this.checkBox11.TabIndex = 10;
+            this.checkBox11.Text = "Block self-blocking? (Prevent user from blocking this app)";
+            this.checkBox11.UseVisualStyleBackColor = true;
+            // 
+            // buttonOKAdv
+            // 
+            this.buttonOKAdv.Location = new System.Drawing.Point(182, 328);
+            this.buttonOKAdv.Name = "buttonOKAdv";
+            this.buttonOKAdv.Size = new System.Drawing.Size(75, 23);
+            this.buttonOKAdv.TabIndex = 12;
+            this.buttonOKAdv.Text = "OK";
+            this.buttonOKAdv.UseVisualStyleBackColor = true;
+            // 
+            // buttonApplyAdv
+            // 
+            this.buttonApplyAdv.Location = new System.Drawing.Point(266, 328);
+            this.buttonApplyAdv.Name = "buttonApplyAdv";
+            this.buttonApplyAdv.Size = new System.Drawing.Size(75, 23);
+            this.buttonApplyAdv.TabIndex = 13;
+            this.buttonApplyAdv.Text = "Apply";
+            this.buttonApplyAdv.UseVisualStyleBackColor = true;
+            // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(13, 290);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(119, 19);
+            this.checkBox12.TabIndex = 14;
+            this.checkBox12.Text = "Start with the OS?";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            // 
+            // checkBox13
+            // 
+            this.checkBox13.AutoSize = true;
+            this.checkBox13.Location = new System.Drawing.Point(13, 316);
+            this.checkBox13.Name = "checkBox13";
+            this.checkBox13.Size = new System.Drawing.Size(168, 19);
+            this.checkBox13.TabIndex = 15;
+            this.checkBox13.Text = "Select all the things above?";
+            this.checkBox13.UseVisualStyleBackColor = true;
+            // 
+            // buttonApplySetting
+            // 
+            this.buttonApplySetting.Location = new System.Drawing.Point(269, 320);
+            this.buttonApplySetting.Name = "buttonApplySetting";
+            this.buttonApplySetting.Size = new System.Drawing.Size(75, 23);
+            this.buttonApplySetting.TabIndex = 15;
+            this.buttonApplySetting.Text = "Apply";
+            this.buttonApplySetting.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -387,6 +689,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.sessionTimeSec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sessionTimeMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sessionTimeHR)).EndInit();
+            this.tabPageSettingAppBlocking.ResumeLayout(false);
+            this.tabPageSettingAppBlocking.PerformLayout();
+            this.tabPageSettingWebBlocking.ResumeLayout(false);
+            this.tabPageSettingWebBlocking.PerformLayout();
+            this.tabPageSettingAdvanced.ResumeLayout(false);
+            this.tabPageSettingAdvanced.PerformLayout();
             this.tabPageAbout.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -421,6 +729,32 @@
         private System.Windows.Forms.NumericUpDown breakTimeMin;
         private System.Windows.Forms.CheckBox enableBreakTime;
         private System.Windows.Forms.Button buttonSettingOk1;
+        private System.Windows.Forms.Button buttonRestart;
+        private System.Windows.Forms.Button buttonAddApp;
+        private System.Windows.Forms.TextBox addAppInput;
+        private System.Windows.Forms.Button buttonRemoveApp;
+        private System.Windows.Forms.CheckedListBox appListBox;
+        private System.Windows.Forms.Button buttonAddWeb;
+        private System.Windows.Forms.TextBox textBoxAddWeb;
+        private System.Windows.Forms.CheckBox checkBoxBlockInternet;
+        private System.Windows.Forms.CheckedListBox webListBox;
+        private System.Windows.Forms.Button buttonRemoveWeb;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.Button buttonApplyAdv;
+        private System.Windows.Forms.Button buttonOKAdv;
+        private System.Windows.Forms.Button buttonApplySetting;
+        private System.Windows.Forms.CheckBox checkBox13;
+        private System.Windows.Forms.CheckBox checkBox12;
     }
 }
 
