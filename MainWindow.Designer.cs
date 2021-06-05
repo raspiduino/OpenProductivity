@@ -99,7 +99,7 @@
             this.buttonClockStartStop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.buttonClockStartStop.FlatAppearance.BorderSize = 0;
             this.buttonClockStartStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClockStartStop.Image = ((System.Drawing.Image)(resources.GetObject("buttonClockStartStop.Image")));
+            this.buttonClockStartStop.Image = global::OpenProductivity.Properties.Resources.play_button;
             this.buttonClockStartStop.Location = new System.Drawing.Point(146, 315);
             this.buttonClockStartStop.Name = "buttonClockStartStop";
             this.buttonClockStartStop.Size = new System.Drawing.Size(73, 73);

@@ -16,28 +16,25 @@ namespace OpenProductivity
         int clock_degree = 360;
         bool session_state = false;
 
-        int hour, min, sec, session_degree_per_sec;
+        int hour, min, sec;
+        float session_degree_per_sec;
         int session_hour, session_min, session_sec;
-
-        // Read setting
-        string[] setting = System.IO.File.ReadAllLines(@"setting.txt");
-
-        public void get_setting()
-        {
-            // Setting file layout
-            // Line 1: session time in sec
-            // Line 2: break time in sec
-
-            session_degree_per_sec = 360 / int.Parse(setting[0]);
-            session_hour = hour = int.Parse(setting[0]) / 3600; // Get the session hour
-            session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
-            session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
-        }
+        double clock_degree_now = 360;
 
         public MainWindow()
         {
             InitializeComponent();
-            get_setting();
+
+            // Setting file layout
+            // Line 1: session time in sec
+            // Line 2: break time in sec
+
+            string[] setting = System.IO.File.ReadAllLines(@"setting.txt");
+
+            session_degree_per_sec = (float)360 / float.Parse(setting[0]);
+            session_hour = hour = int.Parse(setting[0]) / 3600; // Get the session hour
+            session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
+            session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
         }
 
         private void Clock_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -48,21 +45,21 @@ namespace OpenProductivity
             e.Graphics.FillPie(System.Drawing.Brushes.White, 40, 20, 244, 244, 0, 360); // Draw the second circle (inside circle)
 
             // Display the time
-            if (session_hour > 0)
+            if (this.session_hour > 0)
             {
-                e.Graphics.DrawString(session_hour.ToString("") + ":" + session_min.ToString("00") + ":" + session_sec.ToString("00"), new System.Drawing.Font("Segoe UI", 48), System.Drawing.Brushes.Black, new System.Drawing.Point(50, 100));
+                e.Graphics.DrawString(this.session_hour.ToString("") + ":" + this.session_min.ToString("00") + ":" + this.session_sec.ToString("00"), new System.Drawing.Font("Segoe UI", 48), System.Drawing.Brushes.Black, new System.Drawing.Point(50, 100));
             }
             else
             {
-                e.Graphics.DrawString(session_min.ToString("00") + ":" + session_sec.ToString("00"), new System.Drawing.Font("Segoe UI", 48), System.Drawing.Brushes.Black, new System.Drawing.Point(75, 100));
+                e.Graphics.DrawString(this.session_min.ToString("00") + ":" + this.session_sec.ToString("00"), new System.Drawing.Font("Segoe UI", 48), System.Drawing.Brushes.Black, new System.Drawing.Point(75, 100));
             }
         }
 
-        public async void delay_mlsec(int time_to_wait) { 
-            await Task.Delay(time_to_wait);
-        }
+        //public async void delay_mlsec(int time_to_wait) { 
+        //    await Task.Delay(time_to_wait);
+        //}
 
-        private void ButtonClockStartStop_Click(object sender, System.EventArgs e)
+        private async void ButtonClockStartStop_Click(object sender, System.EventArgs e)
         {
             session_state = !session_state;
 
@@ -72,32 +69,41 @@ namespace OpenProductivity
 
                 // Call the function to block app, web,...
 
+                this.buttonClockStartStop.Image = global::OpenProductivity.Properties.Resources.pause_button;
+
                 while (true)
                 {
-                    delay_mlsec(1000); // Delay 1 sec
+                    await Task.Delay(1000); // Delay 1 sec
 
                     // Update the clock
-                    session_sec--;
-                    if (session_sec < 0)
+                    this.session_sec--;
+                    if (this.session_sec < 0)
                     {
-                        session_min--;
-                        session_sec = 59;
+                        this.session_min--;
+                        this.session_sec = 59;
                         
-                        if (session_min < 0)
+                        if (this.session_min < 0)
                         {
-                            session_hour--;
-                            if (session_hour < 0)
+                            this.session_hour--;
+                            this.session_min = 59;
+                            if (this.session_hour < 0)
                             {
-                                session_hour = hour;
-                                session_min = min;
-                                session_sec = sec;
+                                this.session_hour = this.hour;
+                                this.session_min = this.min;
+                                this.session_sec = this.sec;
+                                this.clock_degree_now = 360;
                                 break; // Break if timeout
                             }
                         }
                     }
 
-                    clock_degree -= session_degree_per_sec; // Decrease the clock degree
-                    this.clock.Invalidate(); // Update the clock
+                    // Calculate the clock degree
+                    this.clock_degree_now -= this.session_degree_per_sec; // Decrease the clock degree
+                    this.clock_degree = Convert.ToInt32(Math.Round(this.clock_degree_now));
+
+                    // Update the clock
+                    this.clock.Invalidate(new System.Drawing.Rectangle(0, 0, 326, 284));
+                    this.clock.Update();
 
                     if (!session_state)
                     {
@@ -107,6 +113,8 @@ namespace OpenProductivity
                         break;
                     }
                 }
+
+                this.buttonClockStartStop.Image = global::OpenProductivity.Properties.Resources.play_button;
             }
         }
     }

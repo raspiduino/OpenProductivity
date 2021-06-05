@@ -57,36 +57,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=4.0.2.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
-  <data name="buttonClockStartStop.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-        gg==
-</value>
-  </data>
   <data name="aboutTextBox.Text" xml:space="preserve">
     <value>OpenProductivity Version 0.0.1
 Copyright 2021 @raspiduino
