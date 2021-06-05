@@ -62,12 +62,14 @@
 Copyright 2021 @raspiduino
 Date created 31/5/2021
 
-Written in C# (.NET 3.1), so it should be able to run on .NET core, Mono and DotGNU
+Written in C# (.NET Core 3.1), so it should be able to run on .NET core, Mono and DotGNU
 Github repo: https://github.com/raspiduino/openproductivity
 If you like this app, please star, fork and contribute to it! Thanks! ❤
 
 Under MIT license. See LICENSE in the repo.
 
-Note: This app still in alpha stage, so it might not work properly :)</value>
+Note: This app still in alpha stage, so it might not work properly :)
+
+And one more thing: This is my first C# app (and also the first C# GUI app). My first C# app is NOT Hello World :)</value>
   </data>
 </root>
