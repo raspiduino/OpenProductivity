@@ -1,4 +1,4 @@
-﻿namespace OpenProductivity
+namespace OpenProductivity
 {
     partial class MainWindow
     {
