@@ -20,6 +20,7 @@ namespace OpenProductivity
         float session_degree_per_sec;
         int session_hour, session_min, session_sec;
         double clock_degree_now = 360;
+        string[] setting;
 
         public MainWindow()
         {
@@ -30,12 +31,46 @@ namespace OpenProductivity
             // Line 2: break time?
             // Line 3: break time in sec
 
-            string[] setting = System.IO.File.ReadAllLines(@"setting.txt");
+            // Check if the setting file exist, if not raise an warning and create a new setting file
+
+            if (!System.IO.File.Exists(@"setting.txt"))
+            {
+                System.Windows.Forms.MessageBox.Show("The setting file \"setting.txt\" not found. New file with default setting will be created for you.\nIf this is the first time you run this app, ignore this message.", "Warning!");
+                string[] wsetting = {"2700", "1", "900"};
+                System.IO.File.WriteAllLines(@"setting.txt", wsetting);
+            }
+
+            setting = System.IO.File.ReadAllLines(@"setting.txt");
 
             session_degree_per_sec = (float)360 / float.Parse(setting[0]);
-            session_hour = hour = int.Parse(setting[0]) / 3600; // Get the session hour
-            session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
-            session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
+            this.sessionTimeHR.Value = session_hour = hour = int.Parse(setting[0]) / 3600; // Get the session hour
+            this.sessionTimeMin.Value = session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
+            this.sessionTimeSec.Value = session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
+
+            // Break time setting
+
+            int breaktime = int.Parse(setting[1]);
+
+            if (breaktime == 1)
+            {
+                this.enableBreakTime.Checked = true; // Set it to checked
+                this.breakTimeMin.Value = int.Parse(setting[2]) / 60;
+                this.breakTimeSec.Value = int.Parse(setting[2]) % 60;
+            }
+
+            else
+            {
+                this.enableBreakTime.Checked = false; // Set it to unchecked
+                this.breakTimeMin.Value = int.Parse(setting[2]) / 60;
+                this.breakTimeSec.Value = int.Parse(setting[2]) % 60;
+                this.breakTimeMin.Enabled = false;
+                this.breakTimeSec.Enabled = false;
+            }
+        }
+
+        private void save_setting()
+        {
+            System.IO.File.WriteAllLines(@"setting.txt", setting);
         }
 
         private void Clock_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -56,9 +91,20 @@ namespace OpenProductivity
             }
         }
 
-        //public async void delay_mlsec(int time_to_wait) { 
-        //    await Task.Delay(time_to_wait);
-        //}
+        private void ButtonRestart_Click(object sender, System.EventArgs e)
+        {
+            this.session_state = false; // Stop session
+
+            // Reset the clock
+            this.session_hour = this.hour;
+            this.session_min = this.min;
+            this.session_sec = this.sec;
+            this.clock_degree_now = 360;
+
+            // Update the clock
+            this.clock.Invalidate(new System.Drawing.Rectangle(0, 0, 326, 284));
+            this.clock.Update();
+        }
 
         private void ButtonRestart_Click(object sender, System.EventArgs e)
         {
@@ -131,6 +177,75 @@ namespace OpenProductivity
                 }
 
                 this.buttonClockStartStop.Image = global::OpenProductivity.Properties.Resources.play_button;
+            }
+        }
+
+        private void buttonSettingOk1_Click(object sender, System.EventArgs e)
+        {
+            this.setting[0] = (this.sessionTimeHR.Value * 3600 + this.sessionTimeMin.Value * 60 + this.sessionTimeSec.Value).ToString();
+            
+            if (enableBreakTime.Checked)
+            {
+                this.setting[1] = "1";
+            }
+
+            else
+            {
+                this.setting[1] = "0";
+            }
+
+            this.setting[2] = (this.breakTimeMin.Value * 60 + this.breakTimeSec.Value).ToString();
+
+            save_setting(); // Save the setting
+
+            session_hour = hour = int.Parse(setting[0]) / 3600; // Get the session hour
+            session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
+            session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
+
+            // Update the clock
+            this.clock.Invalidate(new System.Drawing.Rectangle(0, 0, 326, 284));
+            this.clock.Update();
+        }
+
+        private void buttonApplySetting_Click(object sender, System.EventArgs e)
+        {
+            this.setting[0] = (this.sessionTimeHR.Value * 3600 + this.sessionTimeMin.Value * 60 + this.sessionTimeSec.Value).ToString();
+            
+            if (enableBreakTime.Checked)
+            {
+                this.setting[1] = "1";
+            }
+
+            else
+            {
+                this.setting[1] = "0";
+            }
+
+            this.setting[2] = (this.breakTimeMin.Value * 60 + this.breakTimeSec.Value).ToString();
+
+            session_hour = hour = int.Parse(setting[0]) / 3600; // Get the session hour
+            session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
+            session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
+
+            // Update the clock
+            this.clock.Invalidate(new System.Drawing.Rectangle(0, 0, 326, 284));
+            this.clock.Update();
+        }
+
+        private void enableBreakTime_Click(object sender, System.EventArgs e)
+        {
+            if (this.enableBreakTime.Checked)
+            {
+                this.breakTimeMin.Enabled = true;
+                this.breakTimeSec.Enabled = true;
+                this.breakTimeMin.Value = int.Parse(setting[2]) / 60;
+                this.breakTimeSec.Value = int.Parse(setting[2]) % 60;
+            }
+
+            else
+            {
+                this.breakTimeMin.Enabled = false;
+                this.breakTimeSec.Enabled = false;
             }
         }
     }
