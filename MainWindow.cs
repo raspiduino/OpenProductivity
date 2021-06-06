@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -63,8 +63,7 @@ namespace OpenProductivity
                 this.enableBreakTime.Checked = false; // Set it to unchecked
                 this.breakTimeMin.Value = int.Parse(setting[2]) / 60;
                 this.breakTimeSec.Value = int.Parse(setting[2]) % 60;
-                this.breakTimeMin.Enabled = false;
-                this.breakTimeSec.Enabled = false;
+                this.breakTimeMin.Enabled = this.breakTimeSec.Enabled = false;
             }
         }
 
@@ -89,21 +88,6 @@ namespace OpenProductivity
             {
                 e.Graphics.DrawString(this.session_min.ToString("00") + ":" + this.session_sec.ToString("00"), new System.Drawing.Font("Segoe UI", 48), System.Drawing.Brushes.Black, new System.Drawing.Point(75, 100));
             }
-        }
-
-        private void ButtonRestart_Click(object sender, System.EventArgs e)
-        {
-            this.session_state = false; // Stop session
-
-            // Reset the clock
-            this.session_hour = this.hour;
-            this.session_min = this.min;
-            this.session_sec = this.sec;
-            this.clock_degree_now = 360;
-
-            // Update the clock
-            this.clock.Invalidate(new System.Drawing.Rectangle(0, 0, 326, 284));
-            this.clock.Update();
         }
 
         private void ButtonRestart_Click(object sender, System.EventArgs e)
@@ -236,16 +220,12 @@ namespace OpenProductivity
         {
             if (this.enableBreakTime.Checked)
             {
-                this.breakTimeMin.Enabled = true;
-                this.breakTimeSec.Enabled = true;
-                this.breakTimeMin.Value = int.Parse(setting[2]) / 60;
-                this.breakTimeSec.Value = int.Parse(setting[2]) % 60;
+                this.breakTimeMin.Enabled = this.breakTimeSec.Enabled = true;
             }
 
             else
             {
-                this.breakTimeMin.Enabled = false;
-                this.breakTimeSec.Enabled = false;
+                this.breakTimeMin.Enabled = this.breakTimeSec.Enabled = false;
             }
         }
     }
