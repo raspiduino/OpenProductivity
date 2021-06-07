@@ -37,6 +37,7 @@
             this.tabPageSetting = new System.Windows.Forms.TabPage();
             this.tabControlSetting = new System.Windows.Forms.TabControl();
             this.tabPageSettingGeneral = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
             this.buttonApplySetting = new System.Windows.Forms.Button();
             this.buttonSettingOk1 = new System.Windows.Forms.Button();
             this.enableBreakTime = new System.Windows.Forms.CheckBox();
@@ -82,7 +83,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.aboutTextBox = new System.Windows.Forms.RichTextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.blocker = new System.ComponentModel.BackgroundWorker();
             this.tabControlMain.SuspendLayout();
             this.tabPageSession.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clock)).BeginInit();
@@ -211,6 +212,15 @@
             this.tabPageSettingGeneral.TabIndex = 0;
             this.tabPageSettingGeneral.Text = "General";
             this.tabPageSettingGeneral.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(18, 134);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(192, 15);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "The setting will be apply right away";
             // 
             // buttonApplySetting
             // 
@@ -405,6 +415,7 @@
             this.buttonRemoveApp.TabIndex = 4;
             this.buttonRemoveApp.Text = "Remove";
             this.buttonRemoveApp.UseVisualStyleBackColor = true;
+            this.buttonRemoveApp.Click += buttonRemoveApp_Click;
             // 
             // buttonAddApp
             // 
@@ -414,6 +425,7 @@
             this.buttonAddApp.TabIndex = 3;
             this.buttonAddApp.Text = "Add";
             this.buttonAddApp.UseVisualStyleBackColor = true;
+            this.buttonAddApp.Click += buttonAddApp_Click;
             // 
             // addAppInput
             // 
@@ -445,6 +457,7 @@
             this.buttonRemoveWeb.TabIndex = 4;
             this.buttonRemoveWeb.Text = "Remove";
             this.buttonRemoveWeb.UseVisualStyleBackColor = true;
+            this.buttonRemoveWeb.Click += buttonRemoveWeb_Click;
             // 
             // buttonAddWeb
             // 
@@ -454,6 +467,7 @@
             this.buttonAddWeb.TabIndex = 3;
             this.buttonAddWeb.Text = "Add";
             this.buttonAddWeb.UseVisualStyleBackColor = true;
+            this.buttonAddWeb.Click += buttonAddWeb_Click;
             // 
             // textBoxAddWeb
             // 
@@ -471,6 +485,7 @@
             this.checkBoxBlockInternet.TabIndex = 1;
             this.checkBoxBlockInternet.Text = "Block the entire Internet connection?";
             this.checkBoxBlockInternet.UseVisualStyleBackColor = true;
+            this.checkBoxBlockInternet.Click += checkBoxBlockInternet_Click;
             // 
             // webListBox
             // 
@@ -673,14 +688,9 @@
             this.aboutTextBox.TabIndex = 0;
             this.aboutTextBox.Text = resources.GetString("aboutTextBox.Text");
             // 
-            // label7
+            // blocker
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 134);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(192, 15);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "The setting will be apply right away";
+            this.blocker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.blocker_DoWork);
             // 
             // MainWindow
             // 
@@ -769,6 +779,7 @@
         private System.Windows.Forms.CheckBox checkBox13;
         private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.Label label7;
+        private System.ComponentModel.BackgroundWorker blocker;
     }
 }
 
