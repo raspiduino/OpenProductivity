@@ -22,6 +22,8 @@ namespace OpenProductivity
         double clock_degree_now = 360;
         string[] setting;
 
+        string[] applist, weblist;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,13 +32,17 @@ namespace OpenProductivity
             // Line 1: session time in sec
             // Line 2: break time?
             // Line 3: break time in sec
+            // Line 4: apps to block
+            // Line 4: block all internet?
+            // Line 5: webs to block
+            // Line 6: advanced settings
 
             // Check if the setting file exist, if not raise an warning and create a new setting file
 
             if (!System.IO.File.Exists(@"setting.txt"))
             {
                 System.Windows.Forms.MessageBox.Show("The setting file \"setting.txt\" not found. New file with default setting will be created for you.\nIf this is the first time you run this app, ignore this message.", "Warning!");
-                string[] wsetting = {"2700", "1", "900"};
+                string[] wsetting = {"2700", "1", "900", "", "0", ""};
                 System.IO.File.WriteAllLines(@"setting.txt", wsetting);
             }
 
@@ -46,6 +52,9 @@ namespace OpenProductivity
             this.sessionTimeHR.Value = session_hour = hour = int.Parse(setting[0]) / 3600; // Get the session hour
             this.sessionTimeMin.Value = session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
             this.sessionTimeSec.Value = session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
+
+            this.applist = setting[3].Split(",");
+            this.weblist = setting[5].Split(",");
 
             // Break time setting
 
@@ -64,6 +73,18 @@ namespace OpenProductivity
                 this.breakTimeMin.Value = int.Parse(setting[2]) / 60;
                 this.breakTimeSec.Value = int.Parse(setting[2]) % 60;
                 this.breakTimeMin.Enabled = this.breakTimeSec.Enabled = false;
+            }
+
+            // Update the app block list
+            foreach (string appname in applist)
+            {
+                this.appListBox.Items.Add(appname);
+            }
+
+            // Update the web block list
+            foreach (string webname in weblist)
+            {
+                this.webListBox.Items.Add(webname);
             }
         }
 
@@ -227,6 +248,117 @@ namespace OpenProductivity
             {
                 this.breakTimeMin.Enabled = this.breakTimeSec.Enabled = false;
             }
+        }
+
+        private void blocker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                if (this.session_state)
+                {
+                    // In session -> Block app and web
+
+                    // Block app
+                    foreach (string appname in applist)
+                    {
+                        foreach (var process in System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(appname)))
+                        {
+                            process.Kill(); // Kill the process
+                        }
+                    }
+                }
+            }
+        }
+
+        private void checkBoxBlockInternet_Click(object sender, System.EventArgs e)
+        {
+            if (this.checkBoxBlockInternet.Checked)
+            {
+                this.setting[4] = "1";
+                save_setting();
+            }
+
+            else
+            {
+                this.setting[4] = "";
+                save_setting();
+            }
+        }
+
+        private void buttonAddApp_Click(object sender, System.EventArgs e)
+        {
+            string appname = this.addAppInput.Text;
+
+            if (appname == "")
+            {
+                // Empty input, probably a mistake
+                System.Windows.Forms.MessageBox.Show("Cannot add empty name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            else
+            {
+                this.appListBox.Items.Add(appname); // Add app to app list
+                this.applist = this.applist.Append(appname).ToArray(); // Add app to setting
+
+                this.addAppInput.Clear(); // Clear
+
+                this.setting[3] = System.String.Join(",", applist);
+                save_setting(); // Save setting
+            }
+        }
+
+        private void buttonAddWeb_Click(object sender, System.EventArgs e)
+        {
+            string webname = this.textBoxAddWeb.Text;
+
+            if (webname == "")
+            {
+                // Empty input, probably a mistake
+                System.Windows.Forms.MessageBox.Show("Cannot add empty name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            else
+            {
+                this.webListBox.Items.Add(webname); // Add web to web list
+                this.weblist = this.weblist.Append(webname).ToArray(); // Add web to setting
+
+                this.textBoxAddWeb.Clear(); // Clear
+
+                this.setting[5] = System.String.Join(",", weblist);
+                save_setting(); // Save setting
+            }   
+        }
+
+        private void buttonRemoveWeb_Click(object sender, System.EventArgs e)
+        {
+            for (int counter = 0; counter <= this.weblist.Length; counter++)
+            {
+                if (counter < this.weblist.Length && this.webListBox.GetItemChecked(counter))
+                {
+                    this.weblist = this.weblist.Where(i => i != this.webListBox.Items[counter].ToString()).ToArray(); // Remove from setting
+                    this.webListBox.Items.RemoveAt(counter); // Remove from list
+                    counter--; // Move backward one element (we just deleted it!)
+                }
+            }
+
+            this.setting[5] = System.String.Join(",", weblist);
+            save_setting(); // Save setting
+        }
+
+        private void buttonRemoveApp_Click(object sender, System.EventArgs e)
+        {
+            for (int counter = 0; counter <= this.applist.Length; counter++)
+            {
+                if (counter < this.applist.Length && this.appListBox.GetItemChecked(counter))
+                {
+                    this.applist = this.applist.Where(i => i != this.appListBox.Items[counter].ToString()).ToArray(); // Remove from setting
+                    this.appListBox.Items.RemoveAt(counter); // Remove from list
+                    counter--; // Move backward one element (we just deleted it!)
+                }
+            }
+
+            this.setting[3] = System.String.Join(",", applist);
+            save_setting(); // Save setting
         }
     }
 }
