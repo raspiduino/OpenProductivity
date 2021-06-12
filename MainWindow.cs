@@ -53,8 +53,8 @@ namespace OpenProductivity
             this.sessionTimeMin.Value = session_min = min = int.Parse(setting[0]) % 3600 / 60; // Get the session min
             this.sessionTimeSec.Value = session_sec = sec = int.Parse(setting[0]) % 3600 % 60; // Get the session sec
 
-            this.applist = setting[3].Split(",");
-            this.weblist = setting[5].Split(",");
+            this.applist = setting[3].Split(',');
+            this.weblist = setting[5].Split(',');
 
             // Break time setting
 
@@ -135,6 +135,8 @@ namespace OpenProductivity
                 // Now start the session
 
                 // Call the function to block app, web,...
+                // Turn on the blocker
+                this.blocker.RunWorkerAsync();
 
                 this.buttonClockStartStop.Image = global::OpenProductivity.Properties.Resources.pause_button;
 
@@ -174,8 +176,6 @@ namespace OpenProductivity
 
                     if (!session_state)
                     {
-                        // Turn off the blocker
-
                         // End session
                         break;
                     }
@@ -252,22 +252,19 @@ namespace OpenProductivity
 
         private void blocker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
+            do
             {
-                if (this.session_state)
-                {
-                    // In session -> Block app and web
+                // In session -> Block app and web
 
-                    // Block app
-                    foreach (string appname in applist)
+                // Block app
+                foreach (string appname in applist)
+                {
+                    foreach (var process in System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(appname)))
                     {
-                        foreach (var process in System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(appname)))
-                        {
-                            process.Kill(); // Kill the process
-                        }
+                        process.Kill(); // Kill the process
                     }
                 }
-            }
+            } while (this.session_state);
         }
 
         private void checkBoxBlockInternet_Click(object sender, System.EventArgs e)

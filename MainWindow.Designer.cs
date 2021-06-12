@@ -84,6 +84,10 @@ namespace OpenProductivity
             this.tabPageAbout = new System.Windows.Forms.TabPage();
             this.aboutTextBox = new System.Windows.Forms.RichTextBox();
             this.blocker = new System.ComponentModel.BackgroundWorker();
+            this.blocktab = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.m1 = new System.Windows.Forms.RadioButton();
+            this.m2 = new System.Windows.Forms.RadioButton();
             this.tabControlMain.SuspendLayout();
             this.tabPageSession.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clock)).BeginInit();
@@ -99,6 +103,7 @@ namespace OpenProductivity
             this.tabPageSettingWebBlocking.SuspendLayout();
             this.tabPageSettingAdvanced.SuspendLayout();
             this.tabPageAbout.SuspendLayout();
+            this.blocktab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -137,7 +142,6 @@ namespace OpenProductivity
             this.buttonRestart.Size = new System.Drawing.Size(41, 37);
             this.buttonRestart.TabIndex = 2;
             this.buttonRestart.UseVisualStyleBackColor = true;
-            this.buttonRestart.Click += ButtonRestart_Click;
             // 
             // buttonClockStartStop
             // 
@@ -152,7 +156,6 @@ namespace OpenProductivity
             this.buttonClockStartStop.TabIndex = 1;
             this.buttonClockStartStop.TabStop = false;
             this.buttonClockStartStop.UseVisualStyleBackColor = false;
-            this.buttonClockStartStop.Click += ButtonClockStartStop_Click;
             // 
             // clock
             // 
@@ -161,7 +164,6 @@ namespace OpenProductivity
             this.clock.Size = new System.Drawing.Size(326, 284);
             this.clock.TabIndex = 0;
             this.clock.TabStop = false;
-            this.clock.Paint += Clock_Paint;
             // 
             // tabPageSetting
             // 
@@ -180,6 +182,7 @@ namespace OpenProductivity
             this.tabControlSetting.Controls.Add(this.tabPageSettingAppBlocking);
             this.tabControlSetting.Controls.Add(this.tabPageSettingWebBlocking);
             this.tabControlSetting.Controls.Add(this.tabPageSettingAdvanced);
+            this.tabControlSetting.Controls.Add(this.blocktab);
             this.tabControlSetting.Location = new System.Drawing.Point(4, 4);
             this.tabControlSetting.Name = "tabControlSetting";
             this.tabControlSetting.SelectedIndex = 0;
@@ -230,7 +233,6 @@ namespace OpenProductivity
             this.buttonApplySetting.TabIndex = 15;
             this.buttonApplySetting.Text = "Apply";
             this.buttonApplySetting.UseVisualStyleBackColor = true;
-            this.buttonApplySetting.Click += buttonApplySetting_Click;
             // 
             // buttonSettingOk1
             // 
@@ -240,7 +242,6 @@ namespace OpenProductivity
             this.buttonSettingOk1.TabIndex = 14;
             this.buttonSettingOk1.Text = "Ok";
             this.buttonSettingOk1.UseVisualStyleBackColor = true;
-            this.buttonSettingOk1.Click += buttonSettingOk1_Click;
             // 
             // enableBreakTime
             // 
@@ -251,7 +252,6 @@ namespace OpenProductivity
             this.enableBreakTime.TabIndex = 13;
             this.enableBreakTime.Text = "Enable break time?";
             this.enableBreakTime.UseVisualStyleBackColor = true;
-            this.enableBreakTime.Click += enableBreakTime_Click;
             // 
             // label6
             // 
@@ -415,7 +415,6 @@ namespace OpenProductivity
             this.buttonRemoveApp.TabIndex = 4;
             this.buttonRemoveApp.Text = "Remove";
             this.buttonRemoveApp.UseVisualStyleBackColor = true;
-            this.buttonRemoveApp.Click += buttonRemoveApp_Click;
             // 
             // buttonAddApp
             // 
@@ -425,7 +424,6 @@ namespace OpenProductivity
             this.buttonAddApp.TabIndex = 3;
             this.buttonAddApp.Text = "Add";
             this.buttonAddApp.UseVisualStyleBackColor = true;
-            this.buttonAddApp.Click += buttonAddApp_Click;
             // 
             // addAppInput
             // 
@@ -457,7 +455,6 @@ namespace OpenProductivity
             this.buttonRemoveWeb.TabIndex = 4;
             this.buttonRemoveWeb.Text = "Remove";
             this.buttonRemoveWeb.UseVisualStyleBackColor = true;
-            this.buttonRemoveWeb.Click += buttonRemoveWeb_Click;
             // 
             // buttonAddWeb
             // 
@@ -467,7 +464,6 @@ namespace OpenProductivity
             this.buttonAddWeb.TabIndex = 3;
             this.buttonAddWeb.Text = "Add";
             this.buttonAddWeb.UseVisualStyleBackColor = true;
-            this.buttonAddWeb.Click += buttonAddWeb_Click;
             // 
             // textBoxAddWeb
             // 
@@ -485,7 +481,6 @@ namespace OpenProductivity
             this.checkBoxBlockInternet.TabIndex = 1;
             this.checkBoxBlockInternet.Text = "Block the entire Internet connection?";
             this.checkBoxBlockInternet.UseVisualStyleBackColor = true;
-            this.checkBoxBlockInternet.Click += checkBoxBlockInternet_Click;
             // 
             // webListBox
             // 
@@ -692,6 +687,50 @@ namespace OpenProductivity
             // 
             this.blocker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.blocker_DoWork);
             // 
+            // blocktab
+            // 
+            this.blocktab.Controls.Add(this.m2);
+            this.blocktab.Controls.Add(this.m1);
+            this.blocktab.Controls.Add(this.label8);
+            this.blocktab.Location = new System.Drawing.Point(4, 24);
+            this.blocktab.Name = "blocktab";
+            this.blocktab.Padding = new System.Windows.Forms.Padding(3);
+            this.blocktab.Size = new System.Drawing.Size(354, 364);
+            this.blocktab.TabIndex = 4;
+            this.blocktab.Text = "Blocker";
+            this.blocktab.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1, 10);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(354, 165);
+            this.label8.TabIndex = 0;
+            this.label8.Text = resources.GetString("label8.Text");
+            // 
+            // m1
+            // 
+            this.m1.AutoSize = true;
+            this.m1.Location = new System.Drawing.Point(5, 191);
+            this.m1.Name = "m1";
+            this.m1.Size = new System.Drawing.Size(347, 19);
+            this.m1.TabIndex = 1;
+            this.m1.TabStop = true;
+            this.m1.Text = "Use the first method: Blocking using registry (recommended)";
+            this.m1.UseVisualStyleBackColor = true;
+            // 
+            // m2
+            // 
+            this.m2.AutoSize = true;
+            this.m2.Location = new System.Drawing.Point(5, 217);
+            this.m2.Name = "m2";
+            this.m2.Size = new System.Drawing.Size(276, 19);
+            this.m2.TabIndex = 2;
+            this.m2.TabStop = true;
+            this.m2.Text = "Use the second method: Blocking using task kill";
+            this.m2.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -720,6 +759,8 @@ namespace OpenProductivity
             this.tabPageSettingAdvanced.ResumeLayout(false);
             this.tabPageSettingAdvanced.PerformLayout();
             this.tabPageAbout.ResumeLayout(false);
+            this.blocktab.ResumeLayout(false);
+            this.blocktab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -780,6 +821,10 @@ namespace OpenProductivity
         private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.Label label7;
         private System.ComponentModel.BackgroundWorker blocker;
+        private System.Windows.Forms.TabPage blocktab;
+        private System.Windows.Forms.RadioButton m2;
+        private System.Windows.Forms.RadioButton m1;
+        private System.Windows.Forms.Label label8;
     }
 }
 
