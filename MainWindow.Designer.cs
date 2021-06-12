@@ -142,6 +142,7 @@
             this.buttonRestart.Size = new System.Drawing.Size(41, 37);
             this.buttonRestart.TabIndex = 2;
             this.buttonRestart.UseVisualStyleBackColor = true;
+            this.buttonRestart.Click += ButtonRestart_Click;
             // 
             // buttonClockStartStop
             // 
@@ -156,6 +157,7 @@
             this.buttonClockStartStop.TabIndex = 1;
             this.buttonClockStartStop.TabStop = false;
             this.buttonClockStartStop.UseVisualStyleBackColor = false;
+            this.buttonClockStartStop.Click += ButtonClockStartStop_Click;
             // 
             // clock
             // 
@@ -164,6 +166,7 @@
             this.clock.Size = new System.Drawing.Size(326, 284);
             this.clock.TabIndex = 0;
             this.clock.TabStop = false;
+            this.clock.Paint += Clock_Paint;
             // 
             // tabPageSetting
             // 
@@ -233,6 +236,7 @@
             this.buttonApplySetting.TabIndex = 15;
             this.buttonApplySetting.Text = "Apply";
             this.buttonApplySetting.UseVisualStyleBackColor = true;
+            this.buttonApplySetting.Click += buttonApplySetting_Click;
             // 
             // buttonSettingOk1
             // 
@@ -242,6 +246,7 @@
             this.buttonSettingOk1.TabIndex = 14;
             this.buttonSettingOk1.Text = "Ok";
             this.buttonSettingOk1.UseVisualStyleBackColor = true;
+            this.buttonSettingOk1.Click += buttonSettingOk1_Click;
             // 
             // enableBreakTime
             // 
@@ -252,6 +257,7 @@
             this.enableBreakTime.TabIndex = 13;
             this.enableBreakTime.Text = "Enable break time?";
             this.enableBreakTime.UseVisualStyleBackColor = true;
+            this.enableBreakTime.Click += enableBreakTime_Click;
             // 
             // label6
             // 
@@ -415,6 +421,7 @@
             this.buttonRemoveApp.TabIndex = 4;
             this.buttonRemoveApp.Text = "Remove";
             this.buttonRemoveApp.UseVisualStyleBackColor = true;
+            this.buttonRemoveApp.Click += buttonRemoveApp_Click;
             // 
             // buttonAddApp
             // 
@@ -424,6 +431,7 @@
             this.buttonAddApp.TabIndex = 3;
             this.buttonAddApp.Text = "Add";
             this.buttonAddApp.UseVisualStyleBackColor = true;
+            this.buttonAddApp.Click += buttonAddApp_Click;
             // 
             // addAppInput
             // 
@@ -455,6 +463,7 @@
             this.buttonRemoveWeb.TabIndex = 4;
             this.buttonRemoveWeb.Text = "Remove";
             this.buttonRemoveWeb.UseVisualStyleBackColor = true;
+            this.buttonRemoveWeb.Click += buttonRemoveWeb_Click;
             // 
             // buttonAddWeb
             // 
@@ -464,6 +473,7 @@
             this.buttonAddWeb.TabIndex = 3;
             this.buttonAddWeb.Text = "Add";
             this.buttonAddWeb.UseVisualStyleBackColor = true;
+            this.buttonAddWeb.Click += buttonAddWeb_Click;
             // 
             // textBoxAddWeb
             // 
@@ -481,6 +491,7 @@
             this.checkBoxBlockInternet.TabIndex = 1;
             this.checkBoxBlockInternet.Text = "Block the entire Internet connection?";
             this.checkBoxBlockInternet.UseVisualStyleBackColor = true;
+            this.checkBoxBlockInternet.Click += checkBoxBlockInternet_Click;
             // 
             // webListBox
             // 
@@ -719,6 +730,7 @@
             this.m1.TabStop = true;
             this.m1.Text = "Use the first method: Blocking using registry (recommended)";
             this.m1.UseVisualStyleBackColor = true;
+            this.m1.Click += m1_Click;
             // 
             // m2
             // 
@@ -730,6 +742,7 @@
             this.m2.TabStop = true;
             this.m2.Text = "Use the second method: Blocking using task kill";
             this.m2.UseVisualStyleBackColor = true;
+            this.m2.Click += m2_Click;
             // 
             // MainWindow
             // 
@@ -827,4 +840,3 @@
         private System.Windows.Forms.Label label8;
     }
 }
-
