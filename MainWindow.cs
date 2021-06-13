@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
+using System.Security;
+using System.Security.AccessControl;
 
 
 namespace OpenProductivity
@@ -24,6 +27,8 @@ namespace OpenProductivity
 
         string[] applist, weblist;
 
+        RegistryKey block_key;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -35,14 +40,49 @@ namespace OpenProductivity
             // Line 4: apps to block
             // Line 4: block all internet?
             // Line 5: webs to block
-            // Line 6: advanced settings
+            // Line 6: block method
+            // Line 7: advanced setting
 
             // Check if the setting file exist, if not raise an warning and create a new setting file
 
             if (!System.IO.File.Exists(@"setting.txt"))
             {
-                System.Windows.Forms.MessageBox.Show("The setting file \"setting.txt\" not found. New file with default setting will be created for you.\nIf this is the first time you run this app, ignore this message.", "Warning!");
-                string[] wsetting = {"2700", "1", "900", "", "0", ""};
+                System.Windows.Forms.MessageBox.Show("The setting file \"setting.txt\" not found. New file with default setting will be created for you.\nIf this is the first time you run this app, please run this app as admin once this time.", "Warning!");
+
+                string[] wsetting = { "2700", "1", "900", "", "0", "1", "" };
+
+                // First run, so ask for block method
+                Form blockmethod = new Form();
+                blockmethod.Width = 371;
+                blockmethod.Height = 424;
+                blockmethod.Text = "Block method selecting";
+                Label textLabel = new Label() { AutoSize = true, Left = 1, Top = 10, Size = new System.Drawing.Size(354, 165), Text = "This tab let you choose your block method.\nThere are two block method available:\n    - First method: block using registry (might\n      require to run as admin)\n    - Second method: block using task kill (use more CPU!)\n\nYou can choose to use first method if you want to have more CPU\nfor you work (recommended & default method)\nBut if there is some reason the first method doesn't work well, you\nshould switch to the second one." };
+                RadioButton r1 = new RadioButton() { AutoSize = true, Left = 5, Top = 191, Size = new System.Drawing.Size(347, 19), Text = "Use the first method: Blocking using registry (recommended)", Checked = true };
+                RadioButton r2 = new RadioButton() { AutoSize = true, Left = 5, Top = 217, Size = new System.Drawing.Size(276, 19), Text = "Use the second method: Blocking using task kill" };
+                Button confirm = new Button() { Left = 184, Top = 320, Text = "OK" };
+                confirm.Click += (sender, e) => {
+                    if (r1.Checked)
+                    {
+                        wsetting[5] = "1";
+                        RegistryKey r = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\explorer", true);
+
+                        RegistrySecurity rs = new RegistrySecurity();
+                        rs.AddAccessRule(new RegistryAccessRule(Environment.UserDomainName + "\\" + Environment.UserName, RegistryRights.ReadKey | RegistryRights.WriteKey | RegistryRights.Delete, InheritanceFlags.None, PropagationFlags.None, AccessControlType.Allow));
+
+                        r.SetAccessControl(rs);
+                        r.SetValue("DisallowRun", 1);
+                    }
+
+                    else wsetting[5] = "2";
+                    blockmethod.Close(); // Close it
+                };
+
+                blockmethod.Controls.Add(textLabel);
+                blockmethod.Controls.Add(r1);
+                blockmethod.Controls.Add(r2);
+                blockmethod.Controls.Add(confirm);
+                blockmethod.ShowDialog();
+
                 System.IO.File.WriteAllLines(@"setting.txt", wsetting);
             }
 
@@ -86,6 +126,16 @@ namespace OpenProductivity
             {
                 this.webListBox.Items.Add(webname);
             }
+
+            // Update blocking method setting
+            if (this.setting[5] == "1")
+            {
+                this.m1.Checked = true;
+
+                // Registry block method
+                this.block_key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\explorer\DisallowRun", true);
+            }
+            else this.m2.Checked = true;
         }
 
         private void save_setting()
@@ -177,11 +227,41 @@ namespace OpenProductivity
                     if (!session_state)
                     {
                         // End session
+
+                        // If in method 1, remove keys
+                        if (this.setting[5] == "1")
+                        {
+                            for (int i = 0; i < applist.Length; i++)
+                            {
+                                this.block_key.DeleteValue(i.ToString());
+                            }
+                        }
+
                         break;
                     }
                 }
 
                 this.buttonClockStartStop.Image = global::OpenProductivity.Properties.Resources.play_button;
+            }
+        }
+
+        private void m1_Click(object sender, System.EventArgs e)
+        {
+            if (this.m1.Checked)
+            {
+                this.m2.Checked = false;
+                setting[5] = "1";
+                save_setting(); // Save it
+            }
+        }
+
+        private void m2_Click(object sender, System.EventArgs e)
+        {
+            if (this.m2.Checked)
+            {
+                this.m1.Checked = false;
+                setting[5] = "2";
+                save_setting();
             }
         }
 
@@ -252,19 +332,35 @@ namespace OpenProductivity
 
         private void blocker_DoWork(object sender, DoWorkEventArgs e)
         {
-            do
+            if (this.setting[5] == "1")
             {
-                // In session -> Block app and web
-
-                // Block app
-                foreach (string appname in applist)
+                // Method 1
+                
+                var tmplist = this.applist.ToList();
+                foreach (string appname in this.applist)
                 {
-                    foreach (var process in System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(appname)))
-                    {
-                        process.Kill(); // Kill the process
-                    }
+                    this.block_key.SetValue((tmplist.IndexOf(appname)+1).ToString(), appname);
                 }
-            } while (this.session_state);
+            }
+
+            else
+            {
+                // Method 2
+
+                do
+                {
+                    // In session -> Block app and web
+
+                    // Block app
+                    foreach (string appname in applist)
+                    {
+                        foreach (var process in System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(appname)))
+                        {
+                            process.Kill(); // Kill the process
+                        }
+                    }
+                } while (this.session_state);
+            }
         }
 
         private void checkBoxBlockInternet_Click(object sender, System.EventArgs e)

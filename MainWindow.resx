@@ -60,15 +60,13 @@
   <data name="label8.Text" xml:space="preserve">
     <value>This tab let you choose your block method.
 There are two block method available:
-    - First method: block using registry (require Admin rights and
-       UAC prompt every run, but use less CPU)
-    - Second method: block using task kill (doesn't require Admin
-       and UAC, but use more CPU)
+    - First method: block using registry (use less CPU)
+    - Second method: block using task kill (use more CPU!)
 
 You can choose to use first method if you want to have more CPU
 for you work (recommended &amp; default method)
-But if you are normal user and don't have access to UAC, please
-use the second one.</value>
+But if there is some reason the first method doesn't work well, you
+should switch to the second one.</value>
   </data>
   <data name="aboutTextBox.Text" xml:space="preserve">
     <value>OpenProductivity Version 0.0.1
